@@ -4,16 +4,20 @@ import { Text, View } from 'react-native';
 
 import styles from './styles';
 
-const Title = ({ headline, subheading }) => (
+const Title = ({
+    headline, subheading, headlineStyle, subheadingStyle,
+}) => (
   <View>
-    <Text>{headline}</Text>
-    <Text>{subheading}</Text>
+    <Text style={headlineStyle || styles.headline}>{headline}</Text>
+    <Text style={subheadingStyle || styles.subheading}>{subheading}</Text>
   </View>
 );
 
 Title.propTypes = {
     headline: PropTypes.string,
     subheading: PropTypes.string,
+    headlineStyle: PropTypes.object,
+    subheadingStyle: PropTypes.object,
 };
 
 export default Title;
