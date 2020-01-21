@@ -39,9 +39,9 @@ class Home extends Component {
         return colors[this.colorCounter++];
     }
 
-    handlePressItem = (item) => {
+    handlePressItem = (item, color) => {
         const { navigation, setupItem } = this.props;
-        setupItem(item);
+        setupItem(item, color);
 
         navigation.navigate('Detailes');
     };
@@ -54,22 +54,24 @@ class Home extends Component {
 
     render() {
         const { data } = this.props;
-        console.log(data);
         return (
           <Container>
             <StatusBar barStyle="default" translucent={false} />
             <Button text="Add" onPress={this.handlePressAdd} />
             <FlatList
               data={data || []}
-              renderItem={({ item }) => (
-                <ListItem
-                  headline={item.headline}
-                  subheading={item.subheading}
-                  backgroundColor={this.getColor()}
-                  onPress={() => this.handlePressItem(item)}
-                  key={item.id}
-                />
-                    )}
+              renderItem={({ item }) => {
+                  const color = this.getColor();
+                  return (
+                    <ListItem
+                      headline={item.headline}
+                      subheading={item.subheading}
+                      backgroundColor={this.getColor()}
+                      onPress={() => this.handlePressItem(item, color)}
+                    />
+                    );
+}}
+              keyExtractor={(item) => item.id}
               ItemSeparatorComponent={Separator}
             />
           </Container>
@@ -78,8 +80,8 @@ class Home extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    setupItem: (item) => {
-        dispatch(setupCurrentItem(item));
+    setupItem: (item, color) => {
+        dispatch(setupCurrentItem(item, color));
     },
     setupData: (data) => {
         dispatch(setupCurrentData(data));
