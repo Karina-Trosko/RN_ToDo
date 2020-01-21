@@ -6,8 +6,9 @@ import { ListItem, Separator } from '../components/ToDoList';
 import { Button } from '../components/Button';
 import { Container } from '../components/Container';
 import { setupCurrentItem } from '../actions/currentItem';
+import { setupCurrentData } from '../actions/data';
 
-import data from '../data/data';
+import startData from '../data/data';
 
 const colors = ['#00FFFF',
     '#40E0D0',
@@ -20,9 +21,15 @@ const colors = ['#00FFFF',
     '#00FF7F',
     '#00FA9A'];
 
-
 class Home extends Component {
     colorCounter=0;
+
+    constructor(props) {
+        super(props);
+        const { setupData } = this.props;
+        setupData(startData);
+    }
+
 
     getColor() {
         if (this.colorCounter > 9) {
@@ -46,21 +53,23 @@ class Home extends Component {
 
 
     render() {
+        const { data } = this.props;
+        console.log(data);
         return (
           <Container>
             <StatusBar barStyle="default" translucent={false} />
             <Button text="Add" onPress={this.handlePressAdd} />
             <FlatList
-              data={data}
+              data={data || []}
               renderItem={({ item }) => (
                 <ListItem
                   headline={item.headline}
                   subheading={item.subheading}
                   backgroundColor={this.getColor()}
                   onPress={() => this.handlePressItem(item)}
+                  key={item.id}
                 />
                     )}
-              keyExtractor={(item) => item.id}
               ItemSeparatorComponent={Separator}
             />
           </Container>
@@ -69,13 +78,26 @@ class Home extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    setupItem: (item, color) => {
-        dispatch(setupCurrentItem(item, color));
+    setupItem: (item) => {
+        dispatch(setupCurrentItem(item));
+    },
+    setupData: (data) => {
+        dispatch(setupCurrentData(data));
     },
 });
+
+const mapStateToProps = (state) => {
+    const { data } = state.data;
+    return {
+        data,
+    };
+};
+
 Home.propTypes = {
     navigation: PropTypes.object,
     setupItem: PropTypes.func,
+    setupData: PropTypes.func,
+    data: PropTypes.array,
 };
 
-export default connect(null, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

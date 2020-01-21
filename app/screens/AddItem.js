@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { StatusBar, View } from 'react-native';
+import { connect } from 'react-redux';
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
 import { Container } from '../components/Container';
+import { setupCurrentData } from '../actions/data';
 
 import styles from './styles';
 
+
 class AddItem extends Component {
-state={
-    headline: '',
-    subheading: '',
-};
+    state = {
+        headline: '',
+        subheading: '',
+    };
 
     handleTextChengeHeadline = (value) => {
         this.setState({ headline: value });
-        console.log(this.state.headline);
     };
 
     handleTextChengeSubheading = (value) => {
@@ -23,7 +25,17 @@ state={
     };
 
     handlePressSave = () => {
-        console.log('Save');
+        const { navigation, data, setupData } = this.props;
+        const { headline, subheading } = this.state;
+        const id = String(Number(data[data.length - 1].id) + 1);
+        data.push({
+            id,
+            headline,
+            subheading,
+        });
+        setupData(data);
+
+        navigation.goBack();
     };
 
     handlePressBack = () => {
@@ -32,7 +44,8 @@ state={
     };
 
     render() {
-        console.log(`state ${this.state.headline} and ${this.state.subheading}`);
+        const { headline, subheading } = this.state;
+        console.log(`state ${headline} and ${subheading}`);
         return (
           <Container>
 
@@ -40,7 +53,7 @@ state={
             <Input onChangeText={this.handleTextChengeHeadline} placeholder="Headline" />
             <Input onChangeText={this.handleTextChengeSubheading} placeholder="Subheading" />
             <View style={styles.containerForButtons}>
-              <Button text="Save" onPress={this.handlePressSave} disabled={!(this.state.headline && this.state.subheading)} />
+              <Button text="Save" onPress={this.handlePressSave} disabled={!(headline && subheading)} />
               <Button text="Back" onPress={this.handlePressBack} />
             </View>
 
@@ -49,8 +62,23 @@ state={
     }
 }
 
-AddItem.propTypes = {
-    navigation: PropTypes.object,
+const mapDispatchToProps = (dispatch) => ({
+    setupData: (data) => {
+        dispatch(setupCurrentData(data));
+    },
+});
+
+const mapStateToProps = (state) => {
+    const { data } = state.data;
+    return {
+        data,
+    };
 };
 
-export default AddItem;
+AddItem.propTypes = {
+    navigation: PropTypes.object,
+    setupData: PropTypes.func,
+    data: PropTypes.array,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddItem);
