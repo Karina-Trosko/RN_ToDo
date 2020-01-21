@@ -14,32 +14,27 @@ const colors = ['#00FFFF',
     '#B0E0E6',
     '#00BFFF',
     '#1E90FF',
-    '#7B68EE',
-    '#0000FF',
-    '#008B8B',
-    '#4B0082',
-    '#00008B'];
+    '#00CED1',
+    '#7FFFD4',
+    '#66CDAA',
+    '#00FF7F',
+    '#00FA9A'];
 
 
 class Home extends Component {
     colorCounter=0;
 
-state={
-    backgroundColor: '',
-};
-
     getColor() {
         if (this.colorCounter > 9) {
             this.colorCounter = 0;
         }
+        // eslint-disable-next-line no-plusplus
         return colors[this.colorCounter++];
     }
 
-    handlePressItem = (item, e) => {
+    handlePressItem = (item) => {
         const { navigation, setupItem } = this.props;
-        console.log(e.type);
-
-        setupItem(item, e.target.backgroundColor);
+        setupItem(item);
 
         navigation.navigate('Detailes');
     };
@@ -62,7 +57,7 @@ state={
                   headline={item.headline}
                   subheading={item.subheading}
                   backgroundColor={this.getColor()}
-                  onPress={(e) => this.handlePressItem(item, e)}
+                  onPress={() => this.handlePressItem(item)}
                 />
                     )}
               keyExtractor={(item) => item.id}

@@ -10,18 +10,28 @@ const ListItem = ({
     headline, subheading, onPress, backgroundColor,
 }) => {
     const itemStyle = [styles.listItem];
+    const headlineStyle = [styles.headlineStyle];
+    const subheadingStyle = [styles.subheadingStyle];
+    const underlayColor = Color(backgroundColor).darken(0.8);
     if (backgroundColor) {
         itemStyle.push({
             backgroundColor: Color(backgroundColor).lighten(0.1),
             borderColor: backgroundColor,
         });
+        headlineStyle.push({
+            color: Color(backgroundColor).darken(0.5),
+        });
+        subheadingStyle.push({
+            color: Color(backgroundColor).darken(0.5),
+        });
     }
+
     return (
       <View style={itemStyle}>
-        <TouchableHighlight onPress={onPress}>
+        <TouchableHighlight onPress={onPress} underlayColor={underlayColor}>
           <Title
-            headlineStyle={styles.headlineStyle}
-            subheadingStyle={styles.subheadingStyle}
+            headlineStyle={headlineStyle}
+            subheadingStyle={subheadingStyle}
             headline={headline}
             subheading={subheading}
           />

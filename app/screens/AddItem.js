@@ -1,13 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StatusBar } from 'react-native';
+import { StatusBar, View } from 'react-native';
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
 import { Container } from '../components/Container';
 
+import styles from './styles';
+
 class AddItem extends Component {
-    handleTextChenge = (value) => {
-        console.log(`Change: ${value}`);
+state={
+    headline: '',
+    subheading: '',
+};
+
+    handleTextChengeHeadline = (value) => {
+        this.setState({ headline: value });
+        console.log(this.state.headline);
+    };
+
+    handleTextChengeSubheading = (value) => {
+        this.setState({ subheading: value });
     };
 
     handlePressSave = () => {
@@ -20,14 +32,17 @@ class AddItem extends Component {
     };
 
     render() {
+        console.log(`state ${this.state.headline} and ${this.state.subheading}`);
         return (
           <Container>
 
             <StatusBar translucent={false} barStyle="default" />
-            <Input onChangeText={this.handleTextChenge} placeholder="Headline" />
-            <Input onChangeText={this.handleTextChenge} placeholder="Subheading" />
-            <Button text="Save" onPress={this.handlePressSave} />
-            <Button text="Back" onPress={this.handlePressBack} />
+            <Input onChangeText={this.handleTextChengeHeadline} placeholder="Headline" />
+            <Input onChangeText={this.handleTextChengeSubheading} placeholder="Subheading" />
+            <View style={styles.containerForButtons}>
+              <Button text="Save" onPress={this.handlePressSave} disabled={!(this.state.headline && this.state.subheading)} />
+              <Button text="Back" onPress={this.handlePressBack} />
+            </View>
 
           </Container>
         );

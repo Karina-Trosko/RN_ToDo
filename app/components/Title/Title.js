@@ -16,8 +16,8 @@ const Title = ({
 Title.propTypes = {
     headline: PropTypes.string,
     subheading: PropTypes.string,
-    headlineStyle: PropTypes.object,
-    subheadingStyle: PropTypes.object,
+    headlineStyle: PropTypes.array,
+    subheadingStyle: PropTypes.array,
 };
 
 export default Title;

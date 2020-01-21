@@ -10,17 +10,26 @@ import styles from './styles';
 
 const underlayColor = Color('#FFA07A');
 
-const Button = ({ text, onPress, disabled = false }) => (
-  <TouchableHighlight
-    style={styles.button}
-    onPress={onPress}
-    disabled={disabled}
-    underlayColor={underlayColor}
-      // eslint-disable-next-line indent
-  >
-    <Text style={styles.text}>{text}</Text>
-  </TouchableHighlight>
-);
+
+const Button = ({ text, onPress, disabled = false }) => {
+    const disabledButtonColor = Color(styles.$disButtonColor).lighten(0.5);
+
+    const buttonStyle = [styles.button];
+    if (disabled) {
+        buttonStyle.push({ backgroundColor: disabledButtonColor });
+    }
+    return (
+      <TouchableHighlight
+        style={buttonStyle}
+        onPress={onPress}
+        disabled={disabled}
+        underlayColor={underlayColor}
+          // eslint-disable-next-line indent
+      >
+        <Text style={styles.text}>{text}</Text>
+      </TouchableHighlight>
+    );
+};
 
 Button.propTypes = {
     text: PropTypes.string,

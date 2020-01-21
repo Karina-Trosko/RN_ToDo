@@ -6,7 +6,6 @@ const reducer = (state = {}, action) => {
         return {
             ...state,
             item: action.item,
-            color: action.color,
         };
     default: return state;
     }

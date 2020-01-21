@@ -1,7 +1,6 @@
-export const SETUP_CURRENT_ITEM = 'SHOW_CURRENT_ITEM';
+export const SETUP_CURRENT_ITEM = 'SETUP_CURRENT_ITEM';
 
-export const setupCurrentItem = (item, color) => ({
+export const setupCurrentItem = (item) => ({
     type: SETUP_CURRENT_ITEM,
     item,
-    color,
 });
